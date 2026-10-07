@@ -8,7 +8,7 @@ const newTask = createTask(
     'Objects and functions',
     'high',
     '2026-10-10',
-    4,
+    2.5,
     null
 );
 

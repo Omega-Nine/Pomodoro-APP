@@ -24,6 +24,21 @@ function createTask(title, description = null, priority = null, deadline = null,
         }
     }
 
+    let normalizedPlannedPomodoro = null;
+    if(plannedPomodoros !== "" && plannedPomodoros !== null) {
+        const numberPlannedPomodoro = Number(plannedPomodoros);
+
+        if(!Number.isInteger(numberPlannedPomodoro)) {
+            throw new Error('This number is not correct');
+        }
+
+        if(numberPlannedPomodoro <= 0 ) {
+            throw new Error('This number is not correct');
+        }
+
+        normalizedPlannedPomodoro = numberPlannedPomodoro;
+    }
+
     const id = crypto.randomUUID();
     const createdAt = new Date();
     const task = { 
@@ -31,7 +46,7 @@ function createTask(title, description = null, priority = null, deadline = null,
         description: normalizedDescription,
         priority,
         deadline,
-        plannedPomodoros,
+        plannedPomodoros: normalizedPlannedPomodoro,
         scheduledFor,
         id,
         createdAt,
