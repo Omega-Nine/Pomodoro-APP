@@ -1,5 +1,6 @@
+const priorities = ['urgent', 'high', 'medium', 'low'];
 
-function createTask(title, description = null, priority = null, deadline = null, plannedPomodoros = null, scheduledFor = null) {
+function createTask(title, description = null, priority = 'medium', deadline = null, plannedPomodoros = null, scheduledFor = null) {
     if(typeof title !== 'string') {
         throw new Error('Title is required');
     } 
@@ -37,6 +38,10 @@ function createTask(title, description = null, priority = null, deadline = null,
         }
 
         normalizedPlannedPomodoro = numberPlannedPomodoro;
+    }
+
+    if(!priorities.includes(priority)) {
+        throw new Error('Invalid priority');
     }
 
     const id = crypto.randomUUID();
