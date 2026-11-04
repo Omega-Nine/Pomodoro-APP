@@ -1,5 +1,4 @@
 
-
 function isValidDate(dateString) {
     if (typeof dateString !== 'string') {
         return false;
@@ -28,25 +27,26 @@ function isValidDate(dateString) {
 
 const priorities = ['urgent', 'high', 'medium', 'low'];
 
-function createTask(title, description = null, priority = 'medium', deadline = null, plannedPomodoros = null, scheduledFor = null) {
-    if(typeof title !== 'string') {
+function validateTaskData(validData) {
+    
+    if(typeof validData.title !== 'string') {
         throw new Error('Title is required');
     } 
 
-    if(title.trim().length === 0) {
+    if(validData.title.trim().length === 0) {
         throw new Error('Title is required');
     }
 
-    const normalizedTitle = title.trim();
+    const normalizedTitle = validData.title.trim();
 
     let normalizedDescription = null;
 
-    if(description !== null) {
-        if(typeof description !== 'string') {
+    if(validData.description !== null) {
+        if(typeof validData.description !== 'string') {
             throw new Error('Description must be a string');
         }
 
-        const trimmedDescription = description.trim();
+        let trimmedDescription = validData.description.trim();
         
         if(trimmedDescription.length > 0) {
             normalizedDescription = trimmedDescription;
@@ -54,8 +54,9 @@ function createTask(title, description = null, priority = 'medium', deadline = n
     }
 
     let normalizedPlannedPomodoro = null;
-    if(plannedPomodoros !== "" && plannedPomodoros !== null) {
-        const numberPlannedPomodoro = Number(plannedPomodoros);
+
+    if(validData.plannedPomodoros !== "" && validData.plannedPomodoros !== null) {
+        let numberPlannedPomodoro = Number(validData.plannedPomodoros);
 
         if(!Number.isInteger(numberPlannedPomodoro)) {
             throw new Error('This number is not correct');
@@ -68,9 +69,57 @@ function createTask(title, description = null, priority = 'medium', deadline = n
         normalizedPlannedPomodoro = numberPlannedPomodoro;
     }
 
-    if(!priorities.includes(priority)) {
+    if(!priorities.includes(validData.priority)) {
         throw new Error('Invalid priority');
     }
+
+    if(validData.deadline !== null) {
+        if(!isValidDate(validData.deadline)) {
+            throw new Error("Invalid deadline")
+        }
+    } 
+            
+    if(validData.scheduledFor !== null) {
+        if(isValidDate(validData.scheduledFor) === false) {
+            throw new Error("Invalid scheduledFor")
+        }
+    }
+
+    if(validData.deadline !== null && validData.scheduledFor !== null) {
+        if(validData.scheduledFor > validData.deadline) {
+            throw new Error('Scheduled date cannot be after deadline');
+        }
+    }
+
+    const priority = validData.priority;
+    const deadline = validData.deadline;
+    const scheduledFor = validData.scheduledFor;
+
+    const validTask = {
+        title: normalizedTitle,
+        description: normalizedDescription,
+        priority,
+        deadline,
+        plannedPomodoros: normalizedPlannedPomodoro,
+        scheduledFor
+    }
+
+    return validTask;
+}
+
+
+
+function createTask(title, description = null, priority = 'medium', deadline = null, plannedPomodoros = null, scheduledFor = null) {
+    const inputData = {
+    title,
+    description,
+    priority,
+    deadline,
+    plannedPomodoros,
+    scheduledFor
+    };
+
+    const validatedData = validateTaskData(inputData);
 
     const today = new Date();
     const month = today.getMonth() + 1;
@@ -82,42 +131,22 @@ function createTask(title, description = null, priority = 'medium', deadline = n
     const year = today.getFullYear();
     const fullDate = `${year}-${normalizedMonth}-${normalizedDay}`;
 
-    if(deadline !== null) {
-        if(isValidDate(deadline) === false) {
-            throw new Error("Invalid deadline")
-        }
-
-        if(deadline < fullDate) {
-            throw new Error('Impossible deadline');
-        }
-    }
-    
-    if(scheduledFor !== null) {
-        if(isValidDate(scheduledFor) === false) {
-            throw new Error("Invalid scheduledFor")
-        }
-    }
-    
-
-    if(deadline !== null && scheduledFor !== null) {
-        if(scheduledFor > deadline) {
-            throw new Error('Scheduled date cannot be after deadline');
-        }
+    if(validatedData.deadline !== null && validatedData.deadline < fullDate) {
+        throw new Error('Impossible deadline');
     }
 
     const id = crypto.randomUUID();
     const createdAt = new Date();
-    const task = { 
-        title: normalizedTitle,
-        description: normalizedDescription,
-        priority,
-        deadline,
-        plannedPomodoros: normalizedPlannedPomodoro,
-        scheduledFor,
+    const systemData = { 
         id,
         createdAt,
         completedAt: null,
         deletedAt: null,
+    };
+
+    const task = {
+        ...validatedData,
+        ...systemData
     };
 
     return task;
