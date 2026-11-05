@@ -153,4 +153,5 @@ function createTask(title, description = null, priority = 'medium', deadline = n
 }
 
 export { createTask };
+export { validateTaskData };
 

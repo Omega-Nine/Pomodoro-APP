@@ -1,3 +1,4 @@
+import { validateTaskData } from "./task.js";
 
 const taskList = [];
 
@@ -11,9 +12,9 @@ function getTasks() {
 
 function getTaskById(id) {
    for(let i = 0; i < taskList.length; i++) {
-    if(id === taskList[i].id) {
-        return taskList[i];
-    }
+        if(id === taskList[i].id) {
+            return taskList[i];
+        }
    }
 
    return null;
@@ -44,15 +45,20 @@ function updateTask(id, changes) {
         }
     }
 
+    const changesTask = {
+        ...task,
+        ...changes
+    };
+
+    const validObject = validateTaskData(changesTask);
+
     for(let i = 0; i < keys.length; i++) {
-        task[keys[i]] = changes[keys[i]];
+        task[keys[i]] = validObject[keys[i]];
     }
 
     return task;
  
 }
-
-
 
 export { addTask };
 export { getTasks };
