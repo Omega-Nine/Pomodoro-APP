@@ -77,8 +77,23 @@ function deleteTask(id) {
 
 }
 
+function restoreTask(id) {
+    const task = getTaskById(id);
+
+    if(task === null) {
+        return null;
+    } 
+
+    if(task.deletedAt !== null) {
+        task.deletedAt = null;
+    }
+
+    return task;
+}
+
 export { addTask };
 export { getTasks };
 export { getTaskById };
 export { updateTask };
 export { deleteTask };
+export { restoreTask };
