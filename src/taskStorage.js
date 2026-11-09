@@ -60,7 +60,25 @@ function updateTask(id, changes) {
  
 }
 
+function deleteTask(id) {
+    const task = getTaskById(id);
+
+    if(task === null) {
+        return null;
+    } 
+
+    const date = new Date();
+
+    if(task.deletedAt === null) {
+        task.deletedAt = date;
+    }
+
+    return task;
+
+}
+
 export { addTask };
 export { getTasks };
 export { getTaskById };
 export { updateTask };
+export { deleteTask };
