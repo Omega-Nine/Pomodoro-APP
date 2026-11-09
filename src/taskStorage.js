@@ -91,9 +91,16 @@ function restoreTask(id) {
     return task;
 }
 
-export { addTask };
-export { getTasks };
-export { getTaskById };
-export { updateTask };
-export { deleteTask };
-export { restoreTask };
+function getActiveTasks() {
+    const result = taskList.filter(task => task.deletedAt === null);
+
+    return result;
+}
+
+function getDeletedTasks() {
+    const result = taskList.filter(task => task.deletedAt !== null);
+    
+    return result;
+}
+
+export { addTask,getTasks, getTaskById, updateTask, deleteTask, restoreTask, getActiveTasks, getDeletedTasks };
