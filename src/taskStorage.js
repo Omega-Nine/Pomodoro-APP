@@ -18,7 +18,6 @@ function getTaskById(id) {
    }
 
    return null;
-
 }
 
 function updateTask(id, changes) {
@@ -57,7 +56,6 @@ function updateTask(id, changes) {
     }
 
     return task;
- 
 }
 
 function deleteTask(id) {
@@ -74,7 +72,6 @@ function deleteTask(id) {
     }
 
     return task;
-
 }
 
 function restoreTask(id) {
@@ -103,4 +100,23 @@ function getDeletedTasks() {
     return result;
 }
 
-export { addTask,getTasks, getTaskById, updateTask, deleteTask, restoreTask, getActiveTasks, getDeletedTasks };
+function completeTask(id) {
+    const task = getTaskById(id);
+
+    if(task === null) {
+        return null;
+    }
+
+    if(task.deletedAt !== null) {
+        return null;
+    }
+
+    if(task.completedAt === null) {
+        const date = new Date();
+        task.completedAt = date;
+    }
+
+    return task;
+}
+
+export { addTask,getTasks, getTaskById, updateTask, deleteTask, restoreTask, getActiveTasks, getDeletedTasks, completeTask };
