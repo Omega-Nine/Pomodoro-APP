@@ -119,4 +119,22 @@ function completeTask(id) {
     return task;
 }
 
-export { addTask,getTasks, getTaskById, updateTask, deleteTask, restoreTask, getActiveTasks, getDeletedTasks, completeTask };
+function reopenTask(id) {
+    const task = getTaskById(id);
+
+    if(task === null) {
+        return null;
+    }
+
+    if(task.deletedAt !== null) {
+        return null;
+    }
+
+    if(task.completedAt !== null) {
+        task.completedAt = null;
+    }
+
+    return task;
+}
+
+export { addTask, getTasks, getTaskById, updateTask, deleteTask, restoreTask, getActiveTasks, getDeletedTasks, completeTask, reopenTask };
