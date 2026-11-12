@@ -6,9 +6,37 @@ function renderTasks() {
     taskContainer.replaceChildren();
     const taskList = getActiveTasks();
 
-    for(const obj of taskList) {
+    for(const task of taskList) {
         const div = document.createElement('div');
-        div.textContent = obj.title;
+        div.textContent = task.title;
+
+        const buttonDelete = document.createElement('button');
+        buttonDelete.textContent = 'Delete';
+
+        const buttonComplete = document.createElement('button');
+        if(task.completedAt === null) {
+            buttonComplete.textContent = 'Complete';
+        } else{
+            buttonComplete.textContent = 'Reopen';
+        }
+        
+
+        buttonDelete.addEventListener('click', function() {
+            deleteTask(task.id);
+            renderTasks();
+        });
+
+        buttonComplete.addEventListener('click', function() {
+            if(task.completedAt === null) {
+                completeTask(task.id);
+            } else{
+                reopenTask(task.id);
+            }
+
+            renderTasks();
+        });
+
+        div.append(buttonComplete, buttonDelete);
         taskContainer.append(div);
     };
 }
@@ -28,7 +56,6 @@ button.addEventListener('click', function() {
     } catch(err) {
         console.log("Произошла ошибка:", err.message);
     }
-    
 });
 
 
