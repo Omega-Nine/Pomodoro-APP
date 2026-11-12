@@ -111,12 +111,12 @@ function validateTaskData(validData) {
 
 function createTask(title, description = null, priority = 'medium', deadline = null, plannedPomodoros = null, scheduledFor = null) {
     const inputData = {
-    title,
-    description,
-    priority,
-    deadline,
-    plannedPomodoros,
-    scheduledFor
+        title,
+        description,
+        priority,
+        deadline,
+        plannedPomodoros,
+        scheduledFor
     };
 
     const validatedData = validateTaskData(inputData);

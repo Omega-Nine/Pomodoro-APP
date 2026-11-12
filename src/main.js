@@ -15,16 +15,22 @@ function renderTasks() {
 
 
 const taskContainer = document.querySelector('#task-list');
-const task = createTask('Learn CSS');
-const task1 = createTask('Learn HTML');
-const task2 = createTask('Learn JS');
-addTask(task);
-addTask(task1);
-addTask(task2);
+const title = document.querySelector('input');
+const button = document.querySelector('button');
 
-renderTasks();
-deleteTask(task1.id);
-renderTasks();
+button.addEventListener('click', function() { 
+    try{
+        const resultValue = title.value;
+        const task = createTask(resultValue);
+        addTask(task);
+        renderTasks();
+        title.value = '';
+    } catch(err) {
+        console.log("Произошла ошибка:", err.message);
+    }
+    
+});
+
 
 
 
