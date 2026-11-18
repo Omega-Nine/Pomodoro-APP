@@ -8,7 +8,13 @@ function renderTasks() {
 
     for(const task of taskList) {
         const div = document.createElement('div');
-        div.textContent = task.title;
+        div.classList.add('task-card');
+
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.classList.add('task-actions')
+
+        const spanTitle = document.createElement('span');
+        spanTitle.textContent = task.title;
 
         const buttonDelete = document.createElement('button');
         buttonDelete.textContent = 'Delete';
@@ -17,6 +23,7 @@ function renderTasks() {
         if(task.completedAt === null) {
             buttonComplete.textContent = 'Complete';
         } else{
+            spanTitle.classList.add('completed');
             buttonComplete.textContent = 'Reopen';
         }
         
@@ -36,15 +43,16 @@ function renderTasks() {
             renderTasks();
         });
 
-        div.append(buttonComplete, buttonDelete);
+        buttonsContainer.append(buttonComplete, buttonDelete);
+        div.append(spanTitle, buttonsContainer);
         taskContainer.append(div);
     };
 }
 
 
 const taskContainer = document.querySelector('#task-list');
-const title = document.querySelector('input');
-const button = document.querySelector('button');
+const title = document.querySelector('#input-title');
+const button = document.querySelector('#add-task-btn');
 
 button.addEventListener('click', function() { 
     try{
