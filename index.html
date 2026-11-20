@@ -29,11 +29,18 @@
       </section>
 
       <section class="tasks-section">
-        <div id="app"></div>
+        <div class="task-container">
+          <h1>My Tasks</h1>
+
+          <div class="task-form">
+            <input type="text" id="input-title" placeholder="New task title...">
+            <button type="button" id="add-task-btn">Add Task</button>
+          </div>
+
+          <div id="task-list"></div>
+        </div>
+
         
-        <div id="task-list"></div>
-        <input type="text" id="input-title">
-        <button type="button" id="add-task-btn">Add Task</button>
       </section>
     </main>  
     <script type="module" src="/src/main.js"></script>
