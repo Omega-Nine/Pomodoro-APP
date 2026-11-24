@@ -16,8 +16,18 @@ function renderTasks() {
         const buttonsContainer = document.createElement('div');
         buttonsContainer.classList.add('task-actions');
 
+        const divTaskMeta = document.createElement('div');
+        divTaskMeta.classList.add('task-meta');
+
         const spanTitle = document.createElement('span');
         spanTitle.textContent = task.title;
+        spanTitle.classList.add('task-title');
+
+        const spanPriority = document.createElement('span');
+        spanPriority.textContent = task.priority;
+        spanPriority.classList.add('task-priority');
+        spanPriority.classList.add(`priority-${task.priority}`);
+        
 
         const buttonDelete = document.createElement('button');
         buttonDelete.textContent = 'Delete';
@@ -38,7 +48,27 @@ function renderTasks() {
         if(task.description !== null) {
             const pDescription = document.createElement('p');
             pDescription.textContent = task.description;
+            pDescription.classList.add('task-description');
             divText.append(pDescription);
+        }
+
+        if(task.priority !== null) {
+            const pPriority = document.createElement('p');
+            pPriority.textContent = `Deadline: ${task.deadline}`;
+            pPriority.classList.add('task-deadline');
+            divTaskMeta.append(pPriority);
+        }
+
+        if(task.plannedPomodoros !== null) {
+            const pPlannedPomodoros = document.createElement('p');
+            pPlannedPomodoros.textContent = `${task.plannedPomodoros} 🍅`;
+            divTaskMeta.append(pPlannedPomodoros);
+        }
+
+        if(task.scheduledFor !== null) {
+            const pScheduledFor = document.createElement('p');
+            pScheduledFor.textContent = `Planned: ${task.scheduledFor}`;
+            divTaskMeta.append(pScheduledFor);
         }
         
 
@@ -56,9 +86,10 @@ function renderTasks() {
 
             renderTasks();
         });
-
+        
+        divText.append(divTaskMeta);
         buttonsContainer.append(buttonComplete, buttonDelete);
-        divTask.append(divText, buttonsContainer);
+        divTask.append(divText, spanPriority, buttonsContainer);
         taskContainer.append(divTask);
     };
 }
@@ -71,7 +102,7 @@ const button = document.querySelector('#add-task-btn');
 button.addEventListener('click', function() { 
     try{
         const resultValue = title.value;
-        const task = createTask(resultValue);
+        const task = createTask(resultValue, "Практика работы с DOM фыважфывоажфывжажфываэфывраовжащофызщаозукофыэакрщфыщжуркжфыущратфывжатывдфатдфывалтфывэатэфывадфывоьалфывдаджфываждфыважфываофывожауыщзаоэфызаолэузкшэфыокофжы", 'urgent', '2026-11-27', '5', '2026-11-26');
         addTask(task);
         renderTasks();
         title.value = '';

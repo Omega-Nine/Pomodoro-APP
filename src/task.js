@@ -53,20 +53,20 @@ function validateTaskData(validData) {
         }
     }
 
-    let normalizedPlannedPomodoro = null;
+    let normalizedPlannedPomodoros = null;
 
     if(validData.plannedPomodoros !== "" && validData.plannedPomodoros !== null) {
-        let numberPlannedPomodoro = Number(validData.plannedPomodoros);
+        let numberPlannedPomodoros = Number(validData.plannedPomodoros);
 
-        if(!Number.isInteger(numberPlannedPomodoro)) {
+        if(!Number.isInteger(numberPlannedPomodoros)) {
             throw new Error('This number is not correct');
         }
 
-        if(numberPlannedPomodoro <= 0 ) {
+        if(numberPlannedPomodoros <= 0 ) {
             throw new Error('This number is not correct');
         }
 
-        normalizedPlannedPomodoro = numberPlannedPomodoro;
+        normalizedPlannedPomodoros = numberPlannedPomodoros;
     }
 
     if(!priorities.includes(validData.priority)) {
@@ -75,13 +75,13 @@ function validateTaskData(validData) {
 
     if(validData.deadline !== null) {
         if(!isValidDate(validData.deadline)) {
-            throw new Error("Invalid deadline")
+            throw new Error("Invalid deadline");
         }
     } 
             
     if(validData.scheduledFor !== null) {
         if(isValidDate(validData.scheduledFor) === false) {
-            throw new Error("Invalid scheduledFor")
+            throw new Error("Invalid scheduledFor");
         }
     }
 
@@ -100,7 +100,7 @@ function validateTaskData(validData) {
         description: normalizedDescription,
         priority,
         deadline,
-        plannedPomodoros: normalizedPlannedPomodoro,
+        plannedPomodoros: normalizedPlannedPomodoros,
         scheduledFor
     }
 
